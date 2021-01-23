@@ -1,0 +1,13 @@
+.app-header{
+    height: 36px;
+    padding: 8px 32px 8px 16px;
+    background-color: #263238;
+    position: relative;
+}
+.logo{
+    position: absolute;
+    color:#fff;
+    font-size: 18px;
+    top: 25%;    
+
+}
