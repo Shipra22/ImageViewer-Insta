@@ -1,13 +1,20 @@
-.app-header{
-    height: 36px;
-    padding: 8px 32px 8px 16px;
-    background-color: #263238;
-    position: relative;
-}
-.logo{
-    position: absolute;
-    color:#fff;
-    font-size: 18px;
-    top: 25%;    
 
+.app-header {
+    background-color: #263238;
+    height: 54px;
+    
+}
+.app-logo {
+    color: #fff;
+    font-size: 18px;
+    
+}
+.avatar {
+    margin-left: auto;
+}
+header.MuiPaper-root.MuiAppBar-root.MuiAppBar-positionStatic.MuiAppBar-colorPrimary.MuiPaper-elevation4{
+    background-color: #263238;
+    color:white;
+    font-size: 18px;
+   
 }
