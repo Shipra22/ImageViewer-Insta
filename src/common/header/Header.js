@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import "./Header.css"
 import Avatar from '@material-ui/core/Avatar';
-import { Theme } from '@material-ui/core/styles/createMuiTheme';
-// import { withStyles } from '@material-ui/core/styles';
 import { fade, withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -12,12 +9,12 @@ import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-// import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
 
 const styles = theme => ({
-   
-   
+
+
     grow: {
         flexGrow: 1,
         backgroundColor: 'black',
@@ -35,15 +32,15 @@ const styles = theme => ({
         borderRadius: theme.shape.borderRadius,
         backgroundColor: fade(theme.palette.common.white, 0.40),
         '&:hover': {
-          backgroundColor: fade(theme.palette.common.white, 0.25),
+            backgroundColor: fade(theme.palette.common.white, 0.25),
         },
 
         [theme.breakpoints.up('sm')]: {
-          marginLeft: theme.spacing(110),
-          width: 'auto',
+            marginLeft: theme.spacing(110),
+            width: 'auto',
         },
-      },
-      searchIcon: {
+    },
+    searchIcon: {
         padding: theme.spacing(0, 2),
         height: '100%',
         position: 'absolute',
@@ -51,7 +48,7 @@ const styles = theme => ({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-      },
+    },
     inputRoot: {
         color: 'inherit',
 
@@ -63,9 +60,9 @@ const styles = theme => ({
         transition: theme.transitions.create('width'),
         width: '100%',
         [theme.breakpoints.up('md')]: {
-          width: '20ch',
+            width: '20ch',
         },
-      },
+    },
 
 });
 
@@ -78,14 +75,20 @@ class Header extends Component {
             ownerInfo: [],
             loggedIn: sessionStorage.getItem("access-token") == null ? false : true
         }
-        this.baseUrl = "https://api.instagram.com/v1/users/self/?access_token=13521022383.d5e23ae.c9785a17269b494eb996c2cbc490a6f3";
+        // this.baseUrl = "https://api.instagram.com/v1/users/self/?access_token=13521022383.d5e23ae.c9785a17269b494eb996c2cbc490a6f3";
     }
 
-    profilePageLinkHandler = () => {
-        // ReactDOM.render(<Profile />, document.getElementById('root'));
+    profilePageLinkHandler = (event) => {
+        this.setState({
+            showMenu: !this.state.showMenu,
+            anchorEl: this.state.anchorEl != null ? null : event.currentTarget
+        });
     }
+    myAccountClickHandler = () => {
+        this.props.history.push("/profile");
+    };
 
-    logoutHandler = () => {
+    logoutClickHandler = () => {
         sessionStorage.removeItem("access-token");
         this.setState({
             loggedIn: false
@@ -110,28 +113,43 @@ class Header extends Component {
 
         return (
             <div className={classes.grow}>
+                {
+                    this.state.loggedIn ? 
+                    "": <Redirect to='/' />
+
+                }
+                 
+
+
                 <AppBar position="static">
                     <Toolbar>
+                   <div>
+                        <Typography className={{ color: "app-logo" }} variant="h6" noWrap>Image Viewer</Typography>
+                     </div>
+                   
 
-                        <div>
-                            <Typography className={{ color: "app-logo" }} variant="h6" noWrap>Image Viewer</Typography>
-                        </div>
-
-
-                        <div className={classes.search}>
+                       {   this.props.showSearchOption==="true" && this.state.loggedIn ? 
+                          <div className={classes.search}>
                             <div className={classes.searchIcon}>
                                 <SearchIcon />
                             </div>
-                            <InputBase
+                            <InputBase onChange={this.searchBoxChangeHandler}
                                 placeholder="        Search…"
                                 classes={{
                                     root: classes.inputRoot,
                                     input: classes.inputInput,
                                 }}
                             />
-                        </div>
-                        {<Avatar className="avatar">
-                            <img aria-controls="simpleMenu" onClick={this.openMenuHandler}  alt={"logo"} />SR</Avatar>}
+                        </div>:" "
+                        }
+
+                        {   this.props.showSearchOption==="true" && this.state.loggedIn ? 
+                         <Avatar className="avatar">
+                            <img aria-controls="simpleMenu" img={this.profilePicture} onClick={this.openMenuHandler} alt={"logo"} />
+                        </Avatar>:" "
+                        }
+                        
+                        {  this.props.showSearchOption==="true" && this.state.loggedIn ? 
                         <div>
                             <Menu
                                 id="menu-appbar"
@@ -147,13 +165,30 @@ class Header extends Component {
                                 onClose={this.closeMenuHandler}
 
                             >
-                             
+
+                                <div> <MenuItem onClick={this.myAccountClickHandler}>
+                                    <span className="menu-option">My Account</span>
+                                </MenuItem>
+                                    <hr />
+                                </div>
+
+                                <MenuItem onClick={this.logoutClickHandler}>
+                                    <span className="menu-option">Logout</span>
+                                </MenuItem>
+
+
+
                             </Menu>
                         </div>
+                         :""
+                          }
+
+
+
 
                     </Toolbar>
-                </AppBar>
-            </div>
+                </AppBar >
+            </div >
         );
     }
 }

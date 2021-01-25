@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import Header from "../../common/header/Header";
+
 import './Login.css';
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
@@ -12,7 +13,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Home from "../../screens/home/Home";
 
-  
+
 
 class Login extends Component {
 
@@ -24,7 +25,6 @@ class Login extends Component {
             passwordRequired: "dispNone",
             password: "",
             credentialsIncorrect: "dispNone",
-            code: "",
             loggedIn: sessionStorage.getItem("access-token") == null ? false : true
         }
 
@@ -42,21 +42,25 @@ class Login extends Component {
   
 
     loginClickHandler = () => {
-
+  
+        
         let mockUser="abc";
         let mockPassword="abc";
-        let mockAccesstoken="IGQVJWWlhSQmY5dlFZANk10ZA1NiUDlCX2NLb1BBYnFpT05BaWdMck1JdzRkZA0FHd1pVMHAteEhPTVNSdldpOVJwdHR3RWFZAMFUxd3YtZAWg2RTZA6dWVUQmV4bTFiWmg0RkxTRGlyZAjdud3k5M1plWlRkRlZAmRFBvSF81ZAGpN";
+        let mockAccesstoken="IGQVJYeER2SnFFUEkxNDBmWVQ5UkZA3NUNWd0FvTUJxZA3NzVzY3OWM0YmhrR2NDNDVPSkNQa2JKcFhHTzY4dWltMDMyWEhuYjNPQXgza0xobkthQ3c1OUhMS180TEJ1ZAGRwb0JXaVpHSFpqRXdqdm1wdmNTZA3hQQk50MnZAj";
 
         this.state.username === "" ? this.setState({ usernameRequired: "dispBlock" }) : this.setState({ usernameRequired: "dispNone" });
         this.state.password === "" ? this.setState({ passwordRequired: "dispBlock" }) : this.setState({ passwordRequired: "dispNone" });
 
-        if (this.state.username === "" || this.state.password === "") { return }
+        // if (this.state.username === "" || this.state.password === "") { return }
 
-        if (this.state.username === mockUser && this.state.password ===mockPassword) {
+        if (this.state.username === "" && this.state.password ==="") {  //removed the checking password thing
             this.setState({ credentialsIncorrect: "dispNone", loggedIn: true })
 
             sessionStorage.setItem("access-token", mockAccesstoken);
-            ReactDOM.render(<Home loggedIn="true" showSearchTab = "true"/>, document.getElementById('root'));
+            sessionStorage.setItem("loggedIn", true);
+            this.props.history.push("/home");
+            console.log("sucess login");
+            // ReactDOM.render(<Home/>,document.getElementById("root"));
         }
         else {
             console.log("not correct");
@@ -64,8 +68,7 @@ class Login extends Component {
         }
 
     }
-
-
+  
     render() {
        
         return (

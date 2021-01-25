@@ -1,8 +1,10 @@
 .unliked{
+    display: none;
    
 }
 .liked{
-    color: tomato;
+   
+    display:none  
 }
 .comment-section{
     display: flex;
@@ -19,6 +21,13 @@
     position: relative;
     float: left;;
     margin-top: 2%; 
-  
-    
+}
+.add-comment{
+    width: 400px;
+   
+}
+
+.add-btn{
+   float: right;
+   margin-right: 10px;
 }

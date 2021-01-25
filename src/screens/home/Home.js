@@ -18,7 +18,9 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import { red } from '@material-ui/core/colors';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+
+debugger;
 
 const styles = theme => ({
     root: {
@@ -26,6 +28,7 @@ const styles = theme => ({
     },
     media: {
         height: 0,
+        margin: 20,
         paddingTop: '56.25%', // 16:9
     },
 
@@ -33,8 +36,8 @@ const styles = theme => ({
     avatar: {
         backgroundColor: red[500],
     },
-    cardPost:{
-       
+    cardPost: {
+
     },
 });
 
@@ -42,11 +45,24 @@ const styles = theme => ({
 class Home extends Component {
     constructor() {
         super();
+        console.log("home constructor enter");
         this.state = {
+            // loggedIn: sessionStorage.getItem("access-token") == null ? false : true,
+            loggedIn: true,
+            accessToken: sessionStorage.getItem('access-token'),
+            profilePicture: "https://www.google.com/imgres?imgurl=https%3A%2F%2Fi.pinimg.com%2Foriginals%2F47%2F0a%2F19%2F470a19a36904fe200610cc1f41eb00d9.jpg&imgrefurl=https%3A%2F%2Fwww.pinterest.com%2Fpin%2F458663543303636653%2F&tbnid=jKI3BL6cCF4MZM&vet=12ahUKEwj70dSBorbuAhXOdH0KHca9DQoQMygAegUIARDTAQ..i&docid=oJcgxCsc_idUaM&w=3840&h=2160&q=wallpaper&ved=2ahUKEwj70dSBorbuAhXOdH0KHca9DQoQMygAegUIARDTAQ",
             likes: 7,
             heart: "unliked",
             comment: "",
             commentSection: [],
+            profilePicture: '',
+            username: 'shipra',
+            postedImages: [],
+            displayImages: [],
+            hashTags: [],
+
+            commentedImageId: '',
+            // data:[],
             data: [
                 {
                     "id": "17859373682390928",
@@ -149,13 +165,73 @@ class Home extends Component {
         }
     }
 
-   
-    likeClickIcon = () => {
-        if (this.state.heart === "uniked") {
-            this.setState({ heart: "liked" })
+    // componentDidMount() {
+    //     if (this.state.loggedIn === true) {
+
+    //         let that = this;
+    //         let xhrMedia = new XMLHttpRequest();
+    //         xhrMedia.addEventListener('readystatechange', function () {
+    //             if (this.readyState === 4) {
+    //                 let responseData = JSON.parse(this.response).data;
+    //                 that.setState({username:responseData[0].username});
+
+
+    //                 responseData.forEach(post => {
+    //                     post.timestamp = that.parseTimestamp(post.timestamp);
+    //                 });
+    //                 that.setState({data:responseData});
+    //                 that.setState({
+    //                     postedImages: responseData,
+    //                     displayImages: responseData,
+    //                     commentText: ''
+    //                   });
+    //             }
+    //         });
+    //         xhrMedia.open('GET', this.props.baseUrl + 'me/media?fields=id,media_type,media_url,username,timestamp&access_token='
+    //             + this.state.accessToken);
+    //         xhrMedia.send();
+    //     }
+    //     else {
+    //         console.log(
+    //             'user is not logged in, taken care by isUserLoggedin State change in header');
+    //     }
+    // };
+    parseTimestamp = (time) => {
+        let dateTime = new Date(time * 1000);
+        return this.formatNums(dateTime.getDate()) + '/' +
+            this.formatNums(dateTime.getMonth() + 1) + '/' +
+            dateTime.getFullYear() + ' ' + dateTime.getHours() + ':'
+            + dateTime.getMinutes() + ':' +
+            dateTime.getSeconds();
+    };
+
+    formatNums = (num) => {
+        if (num <= 9) {
+            return '0' + num;
+        }
+        return num;
+    };
+    searchBoxChangeHandler = (searchText) => {
+        let displayImages = (searchText === "")
+            ? this.state.postedImages
+            : this.state.postedImages.filter(
+                image => image.caption.toLowerCase().includes(
+                    searchText.toLowerCase())
+                    || image.caption.toLowerCase().includes(
+                        searchText.toLowerCase()));
+        // Set the state to update the content on page
+        this.setState({ displayImages: displayImages });
+    };
+    iconClickHandler = (e) => {
+        if (this.state.heart === "unliked") {
+            console.log("liked it");
+            this.setState({ heart: "liked", likes: this.state.likes + 1 })
+            this.forceUpdate();
+
         }
         else {
-            this.setState({ heart: "unliked" })
+            console.log("unliked it");
+            this.setState({ heart: "unliked", likes: this.state.likes - 1 })
         }
 
     }
@@ -172,59 +248,83 @@ class Home extends Component {
 
         }
     }
+
     render() {
         const { classes } = this.props;
+        console.log("entered home");
         return (
             <div>
-                <Header />
+
+                <Header
+                    pageId="home"
+                    showSearchOption="true"
+                    showProfileAvatar="true"
+                    baseUrl={this.props.baseUrl}
+                    profilePicture={this.state.profilePicture}
+                    {...this.props}
+                    searchBoxChangeHandler={this.searchBoxChangeHandler}
+                // mediaFiles={this.state.data}
+
+                />
+
                 <div className="parent-card">
                     {this.state.data.map(data => (
-                        <Card 
-                        // className={classes.root}
-                        className="cards"
-                         key={"post" + data.id}>
+                        <Card
+                            // className={classes.root}
+                            className="cards"
+                            key={"post" + data.id}>
                             <CardHeader
                                 avatar={
                                     <Avatar aria-label="recipe" className={classes.avatar}>
-                                        SR</Avatar>
+                                        {this.state.profilePicture}</Avatar>
                                 }
-                                action={
-                                    <IconButton aria-label="settings">
-                                        <MoreVertIcon />
-                                    </IconButton>
-                                }
-                                title="upgrad-sde"
+
+                                title={this.state.username}
                                 subheader={new Date(data.timestamp).toDateString()}
                             />
                             <CardMedia
                                 className={classes.media}
                                 image={data.media_url}
+
                             />
                             <CardContent>
                                 <Typography variant="body2" color="textSecondary" component="span">
                                     {data.caption}
                                 </Typography>
-                                <div className="likes">
-                                    <IconButton aria-label="add to favorites" className={this.state.heart} onClick={this.likeClickIcon}>
-                                        <FavoriteBorderIcon />
-                                    </IconButton>
+                                <div className="likes" >
+                                    {/* <IconButton aria-label="add to favorites" className={this.state.heart} onClick={() => this.iconClickHandler}> */}
+                                    <IconButton className={this.state.heart} onClick={() => this.iconClickHandler}>
+                                    {this.state.heart === "unliked" ?
+                                           <div>  <FavoriteBorderIcon /> 
+                                      
+                                           <FavoriteIcon/> </div>:""
+                                          
+                                       }
+                                       </IconButton>
                                     <Typography variant="body2" color="textSecondary" component="span">
                                         {this.state.likes} Likes!
                                 </Typography>
                                 </div>
                                 <div className="comment-section">
-                                    {this.state.commentSection.map(c => (
-                                        <span >
-                                            {c}
-                                        </span>
+                                    {this.state.commentSection.map((c, index) => (
+                                        <div key={c + index}>
+                                            <Typography>
+                                                <span
+                                                    className="comment-username">{this.state.username}:&nbsp;</span>
+                                                <span
+                                                    className="comment-text">{this.state.comment}</span>
+                                            </Typography>
+                                        </div>
                                     ))}
                                 </div>
-                                <div className="comment">
-                                    <FormControl >
+                                <div >
+                                    <FormControl className="add-comment">
                                         <InputLabel htmlFor="comment">Add a comment</InputLabel>
                                         <Input id="comment" type="text" comment={this.state.comment} onChange={this.commentChangeHandler} />
                                     </FormControl>
-                                    <Button variant="contained" color="primary" onClick={this.addCommentHandler}>ADD</Button>
+                                    <div className="add-btn">
+                                        <Button variant="contained" color="primary" onClick={this.addCommentHandler}>ADD</Button>
+                                    </div>
                                 </div>
 
                             </CardContent>
