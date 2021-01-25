@@ -11,6 +11,7 @@
 }
 .avatar {
     margin-left: auto;
+    cursor:pointer;
 }
 header.MuiPaper-root.MuiAppBar-root.MuiAppBar-positionStatic.MuiAppBar-colorPrimary.MuiPaper-elevation4{
     background-color: #263238;

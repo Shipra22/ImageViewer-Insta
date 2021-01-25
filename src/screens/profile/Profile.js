@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "./Profile.css";
+import mockUser from  "../../config";
 import Header from "../../common/header/Header";
 import Avatar from "@material-ui/core/Avatar";
 import { withStyles } from "@material-ui/styles";
@@ -18,6 +19,7 @@ import GridListTile from "@material-ui/core/GridListTile";
 import Grid from "@material-ui/core/Grid";
 import Divider from "@material-ui/core/Divider";
 import Container from "@material-ui/core/Container";
+import { configure } from "@testing-library/react";
 
 const styles = theme => ({
   bigAvatar: {
@@ -50,89 +52,18 @@ const styles = theme => ({
   }
 });
 
-class TestProfile extends Component {
+class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      profile_picture: "https://lh3.googleusercontent.com/ogw/ADGmqu_wWKGRUtQcKDwFbPcc2Mvl8Nt_4JKx2laewiMM7w=s83-c-mo",
-      username: "shipra_akkhu",
-      media: 0,
+      loggedIn: sessionStorage.getItem("access-token") == null ? false : true,
+      accessToken: sessionStorage.getItem('access-token'),
+      profile_picture:mockUser.profile_picture,
+      media:"",
       follows: 0,
       followed_by: 0,
-      full_name: "shipra rai",
-      userPosts: [
-        {
-          "id": "17859373682390928",
-          "caption": "First day of first job #adulting",
-          "media_url": "https://scontent-lga3-2.cdninstagram.com/v/t51.29350-15/139955164_406064290617274_6930985371366308621_n.jpg?_nc_cat=105&ccb=2&_nc_sid=8ae9d6&_nc_ohc=PWvIgjRzz3kAX9Om55H&_nc_ht=scontent-lga3-2.cdninstagram.com&oh=b589edf94a337f5e14356aea71305cbb&oe=60328B6B",
-          "username": "shipra_akkhu",
-          "timestamp": "2021-01-19T12:05:19+0000"
-        },
-        {
-          "id": "17847307099818407",
-          "caption": "🎅 ho ho ho ho...",
-          "media_url": "https://scontent-lga3-2.cdninstagram.com/v/t51.2885-15/79195952_459495018273316_3739850523402748343_n.jpg?_nc_cat=108&ccb=2&_nc_sid=8ae9d6&_nc_ohc=ZF2PXVx8IYUAX9epzyH&_nc_ht=scontent-lga3-2.cdninstagram.com&oh=396609aa748edf2821cf889d3ab711f7&oe=60318BE8",
-          "username": "shipra_akkhu",
-          "timestamp": "2019-12-25T15:01:34+0000"
-        },
-        {
-          "id": "17896620730414827",
-          "caption": "❤❤ #family #weddingvibes",
-          "media_url": "https://scontent-lga3-2.cdninstagram.com/v/t51.2885-15/71918679_717930452026271_1215320340523301888_n.jpg?_nc_cat=103&ccb=2&_nc_sid=8ae9d6&_nc_ohc=aUxYNgOIvAUAX8aiyuz&_nc_ht=scontent-lga3-2.cdninstagram.com&oh=132329d43d0305f5b911e09ad423f12e&oe=6032ABB4",
-          "username": "shipra_akkhu",
-          "timestamp": "2019-11-28T01:53:57+0000"
-        },
-        {
-          "id": "17894437063328816",
-          "caption": "Own who you are😉\n#farewell_2k19❤",
-          "media_url": "https://scontent-lga3-2.cdninstagram.com/v/t51.2885-15/62159363_398652510859226_6781601007653426293_n.jpg?_nc_cat=106&ccb=2&_nc_sid=8ae9d6&_nc_ohc=4nmjG-YKJugAX9rbUN2&_nc_oc=AQlZY5djADJWHPDVP7khEaE3XdacHn0eVaKPc3qSgGdA5yH7VumCL8QFPL1QjRx369s&_nc_ht=scontent-lga3-2.cdninstagram.com&oh=e14c5472543396851c55d652a0be20c5&oe=6033BF21",
-          "username": "shipra_akkhu",
-          "timestamp": "2019-06-08T21:01:30+0000"
-        },
-        {
-          "id": "17855633044382763",
-          "caption": "You can't do epic shit with basic people😉 #technovation2k19# collegelife",
-          "media_url": "https://scontent-lga3-2.cdninstagram.com/v/t51.2885-15/56842908_131188531322894_2522349804321511910_n.jpg?_nc_cat=103&ccb=2&_nc_sid=8ae9d6&_nc_ohc=7mbH3RaUCcEAX9F4fKy&_nc_ht=scontent-lga3-2.cdninstagram.com&oh=ce04d729007d979998b222eb5b161ceb&oe=60336C2C",
-          "username": "shipra_akkhu",
-          "timestamp": "2019-04-19T17:04:13+0000"
-        },
-        {
-          "id": "17863995175328683",
-          "caption": "“Traveling – it leaves you speechless, then turns you into a storyteller.” #ponditrip#tbt❤️",
-          "media_url": "https://scontent-lga3-2.cdninstagram.com/v/t51.2885-15/51697143_218141159050061_7180145202122609315_n.jpg?_nc_cat=103&ccb=2&_nc_sid=8ae9d6&_nc_ohc=Uj_vi0425uUAX-SJvzl&_nc_ht=scontent-lga3-2.cdninstagram.com&oh=913030c1f4c053dc3ea9734a4b8f5461&oe=60349D4E",
-          "username": "shipra_akkhu",
-          "timestamp": "2019-02-25T18:30:41+0000"
-        },
-        {
-          "id": "18002948443017702",
-          "caption": "Udbhav2k18😊#fashion_show#bikers",
-          "media_url": "https://scontent-lga3-2.cdninstagram.com/v/t51.2885-15/44788206_357441465021018_2126128669875556169_n.jpg?_nc_cat=100&ccb=2&_nc_sid=8ae9d6&_nc_ohc=Mhcsridpk78AX_PzKAI&_nc_ht=scontent-lga3-2.cdninstagram.com&oh=061290b75fee276f70fd8cba8bc35a6d&oe=6032D6DE",
-          "username": "shipra_akkhu",
-          "timestamp": "2018-11-25T11:00:48+0000"
-        },
-        {
-          "id": "17985131674056035",
-          "caption": "💋💋",
-          "media_url": "https://scontent-lga3-2.cdninstagram.com/v/t51.2885-15/41798737_324038828357906_3156241123724403226_n.jpg?_nc_cat=105&ccb=2&_nc_sid=8ae9d6&_nc_ohc=0RyK1vdaExMAX968g3f&_nc_ht=scontent-lga3-2.cdninstagram.com&oh=8b4342f97caa2e633620b07ba3dcb50f&oe=60312D35",
-          "username": "shipra_akkhu",
-          "timestamp": "2018-09-29T21:13:32+0000"
-        },
-        {
-          "id": "17877101578279056",
-          "caption": "💓💓",
-          "media_url": "https://scontent-lga3-2.cdninstagram.com/v/t51.2885-15/41731036_327546608012285_3650907480256476288_n.jpg?_nc_cat=104&ccb=2&_nc_sid=8ae9d6&_nc_ohc=JI9DZkwjtz4AX-rulyS&_nc_ht=scontent-lga3-2.cdninstagram.com&oh=64a57c3475bff0e7e28e2068ee2b8220&oe=6031E806",
-          "username": "shipra_akkhu",
-          "timestamp": "2018-09-29T20:49:11+0000"
-        },
-        {
-          "id": "17924068543093775",
-          "caption": "💓❤",
-          "media_url": "https://scontent-lga3-2.cdninstagram.com/v/t51.2885-15/31496631_592659951103475_9030412212946075648_n.jpg?_nc_cat=110&ccb=2&_nc_sid=8ae9d6&_nc_ohc=h46A7T6d0TkAX9LWYES&_nc_ht=scontent-lga3-2.cdninstagram.com&oh=5a77b1fc8546b852e2ac26ca9b1cc4da&oe=603240B0",
-          "username": "shipra_akkhu",
-          "timestamp": "2018-05-05T20:47:35+0000"
-        }
-      ],
-      access_token: sessionStorage.getItem("access-token"),
+      full_name: mockUser.full_name,
+      mediafiles: [],
       editNameOpen: false,
       fullnameRequired: "dispNone",
       postSelected: null,
@@ -174,23 +105,51 @@ class TestProfile extends Component {
   //     xhrUserProfile.send(dataUserProfile);
 
   //     // Get user posts
-  //     let dataUserPosts = null;
-  //     let xhrUserPosts = new XMLHttpRequest();
-  //     xhrUserPosts.addEventListener("readystatechange", function() {
+  //     let datamediafiles = null;
+  //     let xhrmediafiles = new XMLHttpRequest();
+  //     xhrmediafiles.addEventListener("readystatechange", function() {
   //       if (this.readyState === 4) {
   //         const data = JSON.parse(this.responseText).data;
-  //         that.setState({ userPosts: [...data] });
+  //         that.setState({ mediafiles: [...data] });
   //       }
   //     });
-  //     xhrUserPosts.open(
+  //     xhrmediafiles.open(
   //       "GET",
   //       this.props.baseUrl +
   //         "users/self/media/recent?access_token=" +
   //         this.state.access_token
   //     );
-  //     //xhrUserPosts.setRequestHeader("Cache-Control", "no-cache");
-  //     xhrUserPosts.send(dataUserPosts);
+  //     //xhrmediafiles.setRequestHeader("Cache-Control", "no-cache");
+  //     xhrmediafiles.send(datamediafiles);
   //   };
+
+
+  componentDidMount() {
+    if (this.state.loggedIn === true) {
+
+        let that = this;
+        let xhrMedia = new XMLHttpRequest();
+        xhrMedia.addEventListener('readystatechange', function () {
+            if (this.readyState === 4) {
+                let responseData = JSON.parse(this.response).data;
+
+                console.log("profile     "+responseData);
+                that.setState({mediafiles:responseData});
+                that.setState({media:responseData.length});
+                that.setState({username:responseData[0].username})
+            }
+        });
+        
+
+        xhrMedia.open('GET','https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,username,timestamp&access_token='
+            + this.state.accessToken);
+        xhrMedia.send();
+    }
+    else {
+        console.log(
+            'user is not logged in, taken care by isUserLoggedin State change in header');
+    }
+};
   //To close edit modal
   onEditFullNameModalClose = () => {
     this.setState({
@@ -229,7 +188,7 @@ class TestProfile extends Component {
 
   //onClick() method each post image  open modal with details
   onhandlePostClick = (id, index) => {
-    let userPostItems = this.state.userPosts;
+    let userPostItems = this.state.mediafiles;
     this.setState({
       postSelected: userPostItems[index],
       selectedIndex: index,
@@ -250,7 +209,7 @@ class TestProfile extends Component {
   // like functionality
   onLikesClick = () => {
     let _postSelectedItem = this.state.postSelected;
-    let _userPosts = this.state.userPosts;
+    let _mediafiles = this.state.mediafiles;
     const _selectedIndex = this.state.selectedIndex;
     if (_postSelectedItem.user_has_liked) {
       _postSelectedItem.user_has_liked = false;
@@ -260,11 +219,11 @@ class TestProfile extends Component {
       _postSelectedItem.likes.count = _postSelectedItem.likes.count - 1;
     }
 
-    _userPosts[_selectedIndex] = _postSelectedItem;
+    _mediafiles[_selectedIndex] = _postSelectedItem;
 
     this.setState({
       postSelected: _postSelectedItem,
-      userPosts: _userPosts
+      mediafiles: _mediafiles
     });
   };
 
@@ -287,13 +246,13 @@ class TestProfile extends Component {
         comment_value: this.state.newComment
       });
 
-      let _userPosts = this.state.userPosts;
+      let _mediafiles = this.state.mediafiles;
       const _selectedIndex = this.state.selectedIndex;
-      _userPosts[_selectedIndex] = _postSelectedItem;
+      _mediafiles[_selectedIndex] = _postSelectedItem;
 
       this.setState({
         postSelected: _postSelectedItem,
-        userPosts: _userPosts,
+        mediafiles: _mediafiles,
         newComment: "",
 
       });
@@ -396,7 +355,7 @@ class TestProfile extends Component {
 
           {/* displaying all the posts in 3 columns */}
           <GridList cellHeight={320} cols={3}>
-            {(this.state.userPosts || []).map((post, index) => (
+            {(this.state.mediafiles || []).map((post, index) => (
               <GridListTile
                 key={post.id}
                 className="grid-content"
@@ -419,26 +378,12 @@ class TestProfile extends Component {
               <div className={classes.paper_big}>
                 <Grid container spacing={3}>
                   <Grid item xs={6}>
-                    <img
-                      src={
-                        this.state.postSelected.media_url
-                      }
-                      width="100%"
-                      alt={this.state.postSelected.caption.split("\n")[0]}
-                    />
+                    <img src={this.state.postSelected.media_url} width="100%" alt={this.state.postSelected.caption.split("\n")[0]}/>
                   </Grid>
                   <Grid item xs={6}>
-                    <Grid
-                      container
-                      spacing={3}
-                      justify="flex-start"
-                      alignItems="center"
-                    >
+                    <Grid container spacing={3} justify="flex-start" alignItems="center" >
                       <Grid item>
-                        <Avatar
-                          src={this.state.profile_picture}
-                          alt={this.state.username}
-                        />
+                        <Avatar src={this.state.profile_picture} alt={this.state.username}/>
                       </Grid>
                       <Grid item>
                         <Typography variant="subtitle2">
@@ -571,4 +516,4 @@ class TestProfile extends Component {
   }
 }
 
-export default withStyles(styles)(TestProfile);
+export default withStyles(styles)(Profile);

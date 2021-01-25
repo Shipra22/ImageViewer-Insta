@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import "./Header.css"
+import "./Header.css";
 import Avatar from '@material-ui/core/Avatar';
 import { fade, withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -72,6 +72,7 @@ class Header extends Component {
         super();
         this.state = {
             menuIsOpen: false,
+            profilePicture:"https://lh3.googleusercontent.com/ogw/ADGmqu_wWKGRUtQcKDwFbPcc2Mvl8Nt_4JKx2laewiMM7w=s83-c-mo",
             ownerInfo: [],
             loggedIn: sessionStorage.getItem("access-token") == null ? false : true
         }
@@ -90,6 +91,7 @@ class Header extends Component {
 
     logoutClickHandler = () => {
         sessionStorage.removeItem("access-token");
+        sessionStorage.removeItem("loggedIn")
         this.setState({
             loggedIn: false
         });
@@ -145,7 +147,7 @@ class Header extends Component {
 
                         {   this.props.showSearchOption==="true" && this.state.loggedIn ? 
                          <Avatar className="avatar">
-                            <img aria-controls="simpleMenu" img={this.profilePicture} onClick={this.openMenuHandler} alt={"logo"} />
+                            <img aria-controls="simpleMenu" img={this.state.profilePicture} onClick={this.openMenuHandler} alt={"logo"} />
                         </Avatar>:" "
                         }
                         

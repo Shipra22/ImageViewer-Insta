@@ -46,14 +46,14 @@ class Login extends Component {
         
         let mockUser="abc";
         let mockPassword="abc";
-        let mockAccesstoken="IGQVJYeER2SnFFUEkxNDBmWVQ5UkZA3NUNWd0FvTUJxZA3NzVzY3OWM0YmhrR2NDNDVPSkNQa2JKcFhHTzY4dWltMDMyWEhuYjNPQXgza0xobkthQ3c1OUhMS180TEJ1ZAGRwb0JXaVpHSFpqRXdqdm1wdmNTZA3hQQk50MnZAj";
+        let mockAccesstoken="IGQVJWT0M1bkFHbnNLeU5wbUlrQnRWS3djNUN2TUxrVUxhaHBxMWVQbEtreUxENlRCX2FRR0NJUjFjXzNLVXYxSzVNNzQ5Y1lFU2k0LVpvSVo2U2hucFhwdUdteWhNaTl1TE1LQl85RmxfR3kwTGluY3p1MlRvXzEyeFZAv";
 
         this.state.username === "" ? this.setState({ usernameRequired: "dispBlock" }) : this.setState({ usernameRequired: "dispNone" });
         this.state.password === "" ? this.setState({ passwordRequired: "dispBlock" }) : this.setState({ passwordRequired: "dispNone" });
 
-        // if (this.state.username === "" || this.state.password === "") { return }
+        if (this.state.username === "" || this.state.password === "") { return }
 
-        if (this.state.username === "" && this.state.password ==="") {  //removed the checking password thing
+        if (this.state.username === mockUser && this.state.password ===mockPassword) {  //removed the checking password thing
             this.setState({ credentialsIncorrect: "dispNone", loggedIn: true })
 
             sessionStorage.setItem("access-token", mockAccesstoken);
