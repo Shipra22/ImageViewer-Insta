@@ -42,7 +42,9 @@ import React, { Component } from 'react';
 import Login from './screens/login/Login';
 import Home from './screens/home/Home';
 import { BrowserRouter as Router} from 'react-router-dom';
-import Profile from './screens/profile/Profile';
+ import Profile from './screens/profile/Profile';
+
+
 import { Route, Redirect } from 'react-router'
 
 
