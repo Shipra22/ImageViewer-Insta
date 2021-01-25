@@ -56,7 +56,6 @@ class Home extends Component {
             isLiked: false,
             comment: "",
             commentSection: [],
-            profilePicture: "https://lh3.googleusercontent.com/ogw/ADGmqu_wWKGRUtQcKDwFbPcc2Mvl8Nt_4JKx2laewiMM7w=s83-c-mo",
             username: '',
             postedImages: [],
             displayImages: [],
@@ -142,14 +141,11 @@ class Home extends Component {
         }
     }
     getCaptionText = (caption) => {
-       
-    //    let captionText = (!caption.text) ? "" : caption.text.split(' ').filter(str => !str.startsWith('#')).join(' ');
-       let captionText = (!caption) ? "" : caption.split(' ').filter(str => !str.startsWith('#')).join(' ');
+             let captionText = (!caption) ? "" : caption.split(' ').filter(str => !str.startsWith('#')).join(' ');
        return captionText
-         return captionText
+       
     }
     getCaptionHashTags=(caption) => {
-        // let hashtags = (!caption.text) ? "" : caption.text.split(' ').filter(str => str.startsWith('#')).join(' ');
         let hashtags = (!caption) ? "" : caption.split(' ').filter(str => str.startsWith('#')).join(' ');
         return hashtags
     }
@@ -181,7 +177,7 @@ class Home extends Component {
                 <Header
                     pageId="home"
                     showSearchOption="true"
-                    showProfileAvatar="true"
+                    showProfileIcon="true"
                     baseUrl={this.props.baseUrl}
                     profilePicture={this.state.profilePicture}
                     {...this.props}
@@ -217,7 +213,7 @@ class Home extends Component {
                                     }
                                 </Typography>
                                 <br/>
-                                <Typography variant="subtitle2" color="primary" component="span" style={{color:blue}}>
+                                <Typography variant="subtitle2" color="primary" component="span">
                                     {this.getCaptionHashTags( data.caption)}
                                 </Typography>
 

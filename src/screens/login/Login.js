@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import Header from "../../common/header/Header";
 
+import Header from "../../common/header/Header";
+import mockUser from "../../config";
 import './Login.css';
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
@@ -11,7 +11,7 @@ import Button from "@material-ui/core/Button";
 import Input from "@material-ui/core/Input";
 import InputLabel from '@material-ui/core/InputLabel';
 import FormHelperText from '@material-ui/core/FormHelperText';
-import Home from "../../screens/home/Home";
+
 
 
 
@@ -20,6 +20,13 @@ class Login extends Component {
     constructor() {
         super();
         this.state = {
+            mockUsername:"abc",
+            mockPassword:"abc",
+            mockAccessToken:"IGQVJVWVlESkRWSVlCak5DbzdPRzA1WERyMUd2N3NnZAmdPQ3dONGdINThmc0h4TjZASSzFqdnJ4WjRGVXFXejVjWlFVZA0Q0MXdKMlNtbHVQNUpmeTI3MktLY0dqQnpSQ1JZAQmpzWU9lZAG13VWFaTm00RTdqNUR3cFdrdV9j",
+            mockProfilePic:"https://lh3.googleusercontent.com/ogw/ADGmqu_wWKGRUtQcKDwFbPcc2Mvl8Nt_4JKx2laewiMM7w=s83-c-mo",
+            mockFullname:"Shipra Rai",
+
+
             usernameRequired: "dispNone",
             username: "",
             passwordRequired: "dispNone",
@@ -43,24 +50,22 @@ class Login extends Component {
 
     loginClickHandler = () => {
   
-        
-        let mockUser="abc";
-        let mockPassword="abc";
-        let mockAccesstoken="IGQVJWT0M1bkFHbnNLeU5wbUlrQnRWS3djNUN2TUxrVUxhaHBxMWVQbEtreUxENlRCX2FRR0NJUjFjXzNLVXYxSzVNNzQ5Y1lFU2k0LVpvSVo2U2hucFhwdUdteWhNaTl1TE1LQl85RmxfR3kwTGluY3p1MlRvXzEyeFZAv";
+     
+       
 
         this.state.username === "" ? this.setState({ usernameRequired: "dispBlock" }) : this.setState({ usernameRequired: "dispNone" });
         this.state.password === "" ? this.setState({ passwordRequired: "dispBlock" }) : this.setState({ passwordRequired: "dispNone" });
 
         if (this.state.username === "" || this.state.password === "") { return }
 
-        if (this.state.username === mockUser && this.state.password ===mockPassword) {  //removed the checking password thing
+        if (this.state.username === this.state.mockUsername && this.state.password ===this.state.mockPassword) { 
             this.setState({ credentialsIncorrect: "dispNone", loggedIn: true })
 
-            sessionStorage.setItem("access-token", mockAccesstoken);
+            sessionStorage.setItem("access-token", this.state.mockAccessToken);
             sessionStorage.setItem("loggedIn", true);
             this.props.history.push("/home");
-            console.log("sucess login");
-            // ReactDOM.render(<Home/>,document.getElementById("root"));
+           
+           
         }
         else {
             console.log("not correct");
